@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Selectors.byName;
 import static com.codeborne.selenide.Selenide.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class GoogleTests {
+public class SimpleSearchTests {
 
     final WebDriverConfig config = ConfigFactory.create(WebDriverConfig.class);
 
@@ -24,7 +24,7 @@ public class GoogleTests {
 
     @Test
     void selenideSearchTest() {
-        // Открыть google
+        // Открыть раузер с поисковиком
         open(config.baseUrl());
 
         // Ввести Selenide в поиск
