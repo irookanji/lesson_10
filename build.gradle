@@ -27,11 +27,11 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.0"
     compile("org.junit.jupiter:junit-jupiter-params:5.7.0")
     compile("io.qameta.allure:allure-selenide:2.13.6")
-    runtime group: 'org.aspectj', name: 'aspectjweaver', version: '1.6.10'
+    testCompile group: 'io.rest-assured', name: 'rest-assured', version: '4.3.3'
 }
 
 test {
     systemProperty "chromeoptions.prefs","intl.accept_languages=en"
-    systemProperty "env","local"
+    systemProperty "env","remote"
     useJUnitPlatform()
 }

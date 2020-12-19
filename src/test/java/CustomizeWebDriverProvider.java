@@ -8,39 +8,42 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import javax.annotation.Nonnull;
+
 import static org.openqa.selenium.remote.BrowserType.CHROME;
 import static org.openqa.selenium.remote.BrowserType.FIREFOX;
 
 public class CustomizeWebDriverProvider implements WebDriverProvider {
-    final WebDriverConfig config = ConfigFactory.create(WebDriverConfig.class);
+  final WebDriverConfig config = ConfigFactory.newInstance().create(WebDriverConfig.class);
 
-    @Override
-    public WebDriver createDriver(DesiredCapabilities desiredCapabilities) {
-        desiredCapabilities.setVersion(config.browserVersion());
+  @Nonnull
+  @Override
+  public WebDriver createDriver(DesiredCapabilities desiredCapabilities) {
+    desiredCapabilities.setVersion(config.browserVersion());
 
-        switch (config.browserName()) {
-            case CHROME:
-                WebDriverManager.chromedriver().setup();
-                return new ChromeDriver(getChromeOptions().merge(desiredCapabilities));
-            case FIREFOX:
-                WebDriverManager.firefoxdriver().setup();
-                return new FirefoxDriver(getFirefoxOptions().merge(desiredCapabilities));
-            default:
-                throw new RuntimeException("Unknown browser: " + config.browserName());
-        }
+    switch (config.browserName()) {
+      case CHROME:
+        WebDriverManager.chromedriver().setup();
+        return new ChromeDriver(getChromeOptions().merge(desiredCapabilities));
+      case FIREFOX:
+        WebDriverManager.firefoxdriver().setup();
+        return new FirefoxDriver(getFirefoxOptions().merge(desiredCapabilities));
+      default:
+        throw new RuntimeException("Unknown browser: " + config.browserName());
     }
+  }
 
-    private ChromeOptions getChromeOptions() {
-        ChromeOptions chromeOptions =
-                new ChromeOptions()
-                        .addArguments("--no-sandbox")
-                        .addArguments("--disable-notifications")
-                        .addArguments("--disable-infobars");
-        return chromeOptions;
-    }
+  private ChromeOptions getChromeOptions() {
+    ChromeOptions chromeOptions =
+        new ChromeOptions()
+            .addArguments("--no-sandbox")
+            .addArguments("--disable-notifications")
+            .addArguments("--disable-infobars");
+    return chromeOptions;
+  }
 
-    private FirefoxOptions getFirefoxOptions() {
-        FirefoxOptions firefoxOptions = new FirefoxOptions().setAcceptInsecureCerts(true);
-        return firefoxOptions;
-    }
+  private FirefoxOptions getFirefoxOptions() {
+    FirefoxOptions firefoxOptions = new FirefoxOptions().setAcceptInsecureCerts(true);
+    return firefoxOptions;
+  }
 }
